@@ -5,3 +5,8 @@
 typedef struct Vector {
   long ele[10];
 } Vector;
+
+
+void eval_associative_red(long*);
+void eval_commutative_red(long*);
+void eval_serial(long*);

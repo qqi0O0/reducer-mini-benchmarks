@@ -7,12 +7,10 @@ CFLAGS := -Wall -O3 -g -fopencilk -flto -mllvm -use-external-abi-functions
 LDFLAGS := -flto -fopencilk -L/home/ubuntu/Desktop/cheetah-dev/runtime/ -static-libopencilk
 
 all:	$(PRODUCT_OBJECTS)
-	$(CC) $(LDFLAGS) -o associative_reducer associative_reducer.o
-	$(CC) $(LDFLAGS) -o commutative_reducer commutative_reducer.o
-	$(CC) $(LDFLAGS) -o serial serial.o
+	$(CC) $(LDFLAGS) -o main $(PRODUCT_OBJECTS)
 
 %.o:		%.c $(HEADERS)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -f associative_reducer commutative_reducer serial *.o
+	rm -f main *.o

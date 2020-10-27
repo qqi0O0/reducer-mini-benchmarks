@@ -28,15 +28,8 @@ SumReducer n = CILK_C_INIT_REDUCER(Vector,
     sum_reduce, sum_identity, sum_destroy);
 
 
-int main() {
+void eval_associative_red(long* arr) {
   CILK_C_REGISTER_REDUCER(n);
-
-  srand(0);
-
-  long* arr = (long*) malloc(ARR_LEN * VECTOR_LEN * sizeof(long));
-  for (int i = 0; i < ARR_LEN * VECTOR_LEN; i++) {
-    arr[i] = rand() % ARR_MAX_ELE;
-  }
 
   fasttime_t start = gettime();
   // Sum
@@ -47,7 +40,7 @@ int main() {
   }
   fasttime_t stop = gettime();
 
-  printf("Elapsed execution time: %f sec; sum %ld\n",
+  printf("Associative reducer\nElapsed execution time: %f sec; sum %ld\n",
       tdiff_sec(start, stop), REDUCER_VIEW(n).ele[0]);
 
   CILK_C_UNREGISTER_REDUCER(n);

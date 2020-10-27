@@ -5,16 +5,8 @@
 #include "defs.h"
 
 
-Vector n;
-
-
-int main() {
-  srand(0);
-
-  long* arr = (long*) malloc(ARR_LEN * VECTOR_LEN * sizeof(long));
-  for (int i = 0; i < ARR_LEN * VECTOR_LEN; i++) {
-    arr[i] = rand() % ARR_MAX_ELE;
-  }
+void eval_serial(long* arr) {
+  Vector n = {};
 
   fasttime_t start = gettime();
   // Sum
@@ -25,6 +17,6 @@ int main() {
   }
   fasttime_t stop = gettime();
 
-  printf("Elapsed execution time: %f sec; sum %ld\n",
+  printf("Serial\nElapsed execution time: %f sec; sum %ld\n",
       tdiff_sec(start, stop), n.ele[0]);
 }

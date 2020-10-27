@@ -8,18 +8,9 @@
 #define CILK_NWORKERS 16
 
 
-Vector local_views[CILK_NWORKERS];
-
-Vector n;
-
-
-int main() {
-  srand(0);
-
-  long* arr = (long*) malloc(ARR_LEN * VECTOR_LEN * sizeof(long));
-  for (int i = 0; i < ARR_LEN * VECTOR_LEN; i++) {
-    arr[i] = rand() % ARR_MAX_ELE;
-  }
+void eval_commutative_red(long* arr) {
+  Vector local_views[CILK_NWORKERS] = {};
+  Vector n = {};
 
   fasttime_t start = gettime();
   // Sum
@@ -35,6 +26,6 @@ int main() {
   }
   fasttime_t stop = gettime();
 
-  printf("Elapsed execution time: %f sec; sum %ld\n",
+  printf("Commutative reducer\nElapsed execution time: %f sec; sum %ld\n",
       tdiff_sec(start, stop), n.ele[0]);
 }
