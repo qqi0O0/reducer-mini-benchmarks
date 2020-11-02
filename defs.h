@@ -7,6 +7,8 @@ typedef struct Vector {
 } Vector;
 
 
+void vector_add(Vector*, Vector*);
+
 void eval_associative_red(Vector*);
 void eval_commutative_red(Vector*);
 void eval_serial(Vector*);

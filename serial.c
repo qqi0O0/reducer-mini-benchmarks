@@ -11,9 +11,7 @@ void eval_serial(Vector* arr) {
   fasttime_t start = gettime();
   // Sum
   for (int i = 0; i < ARR_LEN; i++) {
-    for (int j = 0; j < VECTOR_LEN; j++) {
-      n.ele[j] += arr[i].ele[j];
-    }
+    vector_add(&n, &arr[i]);
   }
   fasttime_t stop = gettime();
 

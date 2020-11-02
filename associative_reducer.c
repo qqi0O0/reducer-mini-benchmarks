@@ -7,9 +7,7 @@
 
 
 void sum_reduce(void* key, void* left, void* right) {
-  for (int i = 0; i < VECTOR_LEN; i++) {
-    ((Vector*)left)->ele[i] = ((Vector*)left)->ele[i] + ((Vector*)right)->ele[i];
-  }
+  vector_add((Vector*)left, (Vector*)right);
 }
 
 void sum_identity(void* key, void* value) {
@@ -34,9 +32,7 @@ void eval_associative_red(Vector* arr) {
   fasttime_t start = gettime();
   // Sum
   cilk_for (int i = 0; i < ARR_LEN; i++) {
-    for (int j = 0; j < VECTOR_LEN; j++) {
-      REDUCER_VIEW(n).ele[j] += arr[i].ele[j];
-    }
+    vector_add(&REDUCER_VIEW(n), &arr[i]);
   }
   fasttime_t stop = gettime();
 

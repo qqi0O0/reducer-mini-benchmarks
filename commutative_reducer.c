@@ -16,9 +16,7 @@ void eval_commutative_red(Vector* arr) {
   // Sum
   cilk_for (int i = 0; i < ARR_LEN; i++) {
     int worker_number = __cilkrts_get_worker_number();
-    for (int j = 0; j < VECTOR_LEN; j++) {
-      local_views[worker_number].ele[j] += arr[i].ele[j];
-    }
+    vector_add(&local_views[worker_number], &arr[i]);
   }
   for (int i = 0; i < CILK_NWORKERS; i++) {
     for (int j = 0; j < VECTOR_LEN; j++) {
