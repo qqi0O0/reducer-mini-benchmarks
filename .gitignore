@@ -1,4 +1,2 @@
 *.o
-serial
-associative_reducer
-commutative_reducer
+main
