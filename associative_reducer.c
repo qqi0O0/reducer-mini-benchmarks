@@ -26,13 +26,13 @@ SumReducer n = CILK_C_INIT_REDUCER(Vector,
     sum_reduce, sum_identity, sum_destroy);
 
 
-void eval_associative_red(Vector* arr) {
+void eval_associative_red(Vector* arr, int* indices) {
   CILK_C_REGISTER_REDUCER(n);
 
   fasttime_t start = gettime();
   // Sum
-  cilk_for (int i = 0; i < ARR_LEN; i++) {
-    vector_add(&REDUCER_VIEW(n), &arr[i]);
+  cilk_for (int i = 0; i < NUM_SUM; i++) {
+    vector_add(&REDUCER_VIEW(n), &arr[indices[i]]);
   }
   fasttime_t stop = gettime();
 
