@@ -19,9 +19,7 @@ void eval_commutative_red(Vector* arr) {
     vector_add(&local_views[worker_number], &arr[i]);
   }
   for (int i = 0; i < CILK_NWORKERS; i++) {
-    for (int j = 0; j < VECTOR_LEN; j++) {
-      n.ele[j] += local_views[i].ele[j];
-    }
+    vector_add(&n, &local_views[i]);
   }
   fasttime_t stop = gettime();
 
