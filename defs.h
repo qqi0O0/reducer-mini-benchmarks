@@ -3,10 +3,10 @@
 #define VECTOR_LEN 10
 
 typedef struct Vector {
-  long ele[10];
+  long ele[VECTOR_LEN];
 } Vector;
 
 
-void eval_associative_red(long*);
-void eval_commutative_red(long*);
-void eval_serial(long*);
+void eval_associative_red(Vector*);
+void eval_commutative_red(Vector*);
+void eval_serial(Vector*);

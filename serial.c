@@ -5,14 +5,14 @@
 #include "defs.h"
 
 
-void eval_serial(long* arr) {
+void eval_serial(Vector* arr) {
   Vector n = {};
 
   fasttime_t start = gettime();
   // Sum
   for (int i = 0; i < ARR_LEN; i++) {
     for (int j = 0; j < VECTOR_LEN; j++) {
-      n.ele[j] += arr[i * VECTOR_LEN + j];
+      n.ele[j] += arr[i].ele[j];
     }
   }
   fasttime_t stop = gettime();
