@@ -8,6 +8,9 @@
 #define CILK_NWORKERS 16
 
 
+extern __thread struct __cilkrts_worker *tls_worker;
+
+
 void eval_commutative_red(Vector* arr, int* indices) {
   Vector local_views[CILK_NWORKERS] = {};
   Vector n = {};
@@ -15,6 +18,7 @@ void eval_commutative_red(Vector* arr, int* indices) {
   fasttime_t start = gettime();
   // Sum
   cilk_for (int i = 0; i < NUM_SUM; i++) {
+    //int worker_number = (int) (*(((uint64_t*) tls_worker) + 4));
     int worker_number = __cilkrts_get_worker_number();
     vector_add(&local_views[worker_number], &arr[indices[i]]);
   }
