@@ -27,6 +27,5 @@ void eval_commutative_red(Vector* arr, int* indices) {
   }
   fasttime_t stop = gettime();
 
-  printf("Commutative reducer\nElapsed execution time: %f sec; sum %ld\n",
-      tdiff_sec(start, stop), n.ele[0]);
+  printf("%f\t%ld\n", tdiff_sec(start, stop), n.ele[0]);
 }
