@@ -5,7 +5,7 @@
 
 typedef struct Vector {
   long ele[VECTOR_LEN];
-} Vector;
+} __attribute__((aligned (64))) Vector;
 
 
 static inline void vector_add(Vector* left, Vector* right) {
