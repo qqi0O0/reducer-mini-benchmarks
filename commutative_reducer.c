@@ -27,5 +27,9 @@ void eval_commutative_red(Vector* arr, int* indices) {
   }
   fasttime_t stop = gettime();
 
-  printf("%f\t%ld\n", tdiff_sec(start, stop), n.ele[0]);
+  long sum = 0;
+  for (int i = 0; i < VECTOR_LEN; i++) {
+    sum += n.ele[i];
+  }
+  printf("%f\t%ld\n", tdiff_sec(start, stop), sum);
 }
