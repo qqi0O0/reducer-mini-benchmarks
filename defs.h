@@ -8,7 +8,7 @@ typedef struct Vector {
 } Vector;
 
 
-inline void vector_add(Vector* left, Vector* right) {
+static inline void vector_add(Vector* left, Vector* right) {
   for (int i = 0; i < VECTOR_LEN; i++) {
     left->ele[i] = left->ele[i] + right->ele[i];
   }
