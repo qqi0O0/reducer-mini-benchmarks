@@ -2,8 +2,8 @@ HEADERS = $(wildcard *.h)
 PRODUCT_SOURCES = $(wildcard *.c)
 PRODUCT_OBJECTS = $(PRODUCT_SOURCES:.c=.o)
 
-CC := /EBS/mount/qqi/build/bin/clang
-CFLAGS := -Wall -O3 -g -fopencilk -flto -mllvm -use-external-abi-functions
+CC := /EBS/mount/qqi/build_pure/bin/clang
+CFLAGS := -Wall -O1 -g -fopencilk -flto -mllvm -use-external-abi-functions -fno-vectorize -fno-slp-vectorize
 EXTRA_CFLAGS :=
 LDFLAGS := -flto -fuse-ld=gold -fopencilk -L/efs/home/qqi/cheetah-dev/runtime/ -static-libopencilk
 
@@ -22,4 +22,4 @@ all:	$(PRODUCT_OBJECTS)
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -o $@ -c $<
 
 clean:
-	rm -f main *.o
+	rm -f main *.o *.s *.ll
