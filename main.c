@@ -7,7 +7,8 @@
 int main() {
   srand(0);
 
-  Vector* arr = (Vector*) malloc(ARR_LEN * sizeof(Vector));
+  //Vector* arr = (Vector*) malloc(ARR_LEN * sizeof(Vector));
+  Vector* arr = (Vector*) aligned_alloc(64, ARR_LEN * sizeof(Vector));
   int* indices = (int*) malloc(NUM_SUM * sizeof(int));
   for (int i = 0; i < ARR_LEN; i++) {
     for (int j = 0; j < VECTOR_LEN; j++) {
