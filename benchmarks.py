@@ -1,5 +1,6 @@
 import os
 import subprocess
+import statistics
 
 
 arr_lens = [10]
@@ -9,6 +10,32 @@ worker_nums = [1, 2, 4, 8]
 reps = 3
 
 INF = 10000
+
+
+class Result(object):
+    def __init__(self):
+        self.times = []
+        self.value = None
+
+    def insert(self, input_str):
+        time, value = input_str.split("\t")
+        if self.value is None:
+            self.value = value
+        else:
+            if self.value != value:
+                raise AssertionError("Wrong answer!")
+        self.times.append(float(time))
+
+    @property
+    def min(self):
+        return min(self.times)
+
+    @property
+    def stdev(self):
+        return statistics.stdev(self.times)
+
+    def __str__(self):
+        return "{:.6f}\t{:.5f}".format(self.min, self.stdev)
 
 
 for arr_len in arr_lens:
@@ -30,8 +57,9 @@ for arr_len in arr_lens:
             print("Arr len {}, vector len {}, worker number {}".format(
                 arr_len, vector_len, worker_num))
 
-            s = None
-            times = [INF] * 3
+            serial = Result()
+            asso = Result()
+            com = Result()
 
             for i in range(reps):
                 command = "CILK_NWORKERS={} taskset -c 1-{} ./main".format(
@@ -39,19 +67,11 @@ for arr_len in arr_lens:
                 output = os.popen(command).read()
 
                 output = output.strip().split("\n")
-                serial_t, serial_s = output[0].split('\t')
-                asso_t, asso_s = output[1].split('\t')
-                com_t, com_s = output[2].split('\t')
 
-                if s is None:
-                    s = serial_s
-                if serial_s != s or asso_s != s or com_s != s:
-                    print("Wrong answer!")
-                    print(output)
+                serial.insert(output[0])
+                asso.insert(output[1])
+                com.insert(output[2])
 
-                times[0] = min(times[0], float(serial_t))
-                times[1] = min(times[1], float(asso_t))
-                times[2] = min(times[2], float(com_t))
-
-            for time in times:
-                print(time)
+            print(serial)
+            print(asso)
+            print(com)
