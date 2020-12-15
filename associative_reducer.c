@@ -31,6 +31,7 @@ void eval_associative_red(Vector* arr, int* indices) {
 
   fasttime_t start = gettime();
   // Sum
+#pragma cilk grainsize 1
   cilk_for (int i = 0; i < NUM_SUM; i++) {
     vector_add(&REDUCER_VIEW(n), &arr[indices[i]]);
   }

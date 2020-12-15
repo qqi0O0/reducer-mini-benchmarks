@@ -25,6 +25,7 @@ void eval_commutative_red(Vector* arr, int* indices) {
 
   fasttime_t start = gettime();
   // Sum
+#pragma cilk grainsize 1
   cilk_for (int i = 0; i < NUM_SUM; i++) {
     //int worker_number = (int) (*(((uint64_t*) tls_worker) + 4));
     int worker_number = __cilkrts_get_worker_number();
