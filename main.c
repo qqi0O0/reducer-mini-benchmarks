@@ -28,4 +28,5 @@ int main() {
   eval_serial(arr, indices);
   eval_associative_red(arr, indices);
   eval_commutative_red(arr, indices);
+  eval_commutative_red_builtin(arr, indices);
 }

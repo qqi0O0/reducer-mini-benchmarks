@@ -24,4 +24,5 @@ __attribute__((noinline)) void vector_add(Vector* left, Vector* right);
 
 void eval_associative_red(Vector*, int*);
 void eval_commutative_red(Vector*, int*);
+void eval_commutative_red_builtin(Vector*, int*);
 void eval_serial(Vector*, int*);
