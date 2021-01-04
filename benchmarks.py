@@ -4,7 +4,7 @@ import statistics
 
 
 arr_lens = [10]
-vector_lens = [1, 8, 16, 32, 64, 128]
+vector_lens = [2, 8, 16, 32, 64, 128]
 worker_nums = [1, 2, 4, 8]
 
 reps = 3
@@ -16,15 +16,20 @@ class Result(object):
     def __init__(self):
         self.times = []
         self.value = None
+        self.extras = []
 
     def insert(self, input_str):
-        time, value = input_str.split("\t")
+        time = input_str.split("\t")[0]
+        value = input_str.split("\t")[1]
+        extra = " ".join(input_str.split("\t")[2:])
+
         if self.value is None:
             self.value = value
         else:
             if self.value != value:
                 raise AssertionError("Wrong answer!")
         self.times.append(float(time))
+        self.extras.append(extra)
 
     @property
     def min(self):
@@ -35,12 +40,12 @@ class Result(object):
         return statistics.stdev(self.times)
 
     def __str__(self):
-        return "{:.6f}\t{:.5f}".format(self.min, self.stdev)
+        return "{:.6f}\t{:.5f}  \t{}".format(self.min, self.stdev, self.extras)
 
 
 for arr_len in arr_lens:
-    for vector_len in vector_lens:
-        for worker_num in worker_nums:
+    for worker_num in worker_nums:
+        for vector_len in vector_lens:
             process = subprocess.Popen(
                     "make clean".split(' '),
                     stdout=subprocess.DEVNULL,
