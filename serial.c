@@ -10,8 +10,10 @@ void eval_serial(Vector* arr, int* indices) {
 
   fasttime_t start = gettime();
   // Sum
-  for (int i = 0; i < NUM_SUM; i++) {
-    vector_add(&n, &arr[indices[i]]);
+  for (int j = 0; j < NUM_SUM_OUTER * NUM_SUM_INNER; j += NUM_SUM_INNER) {
+    for (int i = 0; i < NUM_SUM_INNER; i++) {
+      vector_add(&n, &arr[indices[i + j]]);
+    }
   }
   fasttime_t stop = gettime();
 

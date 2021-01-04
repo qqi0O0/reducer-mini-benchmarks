@@ -1,8 +1,9 @@
 //#define ARR_LEN 10000
 //#define VECTOR_LEN 64
 #define ARR_MAX_ELE 200
-#define NUM_SUM 100000000
-#define INLINE_HELPER 0
+#define NUM_SUM_OUTER 10000
+#define NUM_SUM_INNER 10000
+#define INLINE_HELPER 1
 
 typedef struct Vector {
   long ele[VECTOR_LEN];

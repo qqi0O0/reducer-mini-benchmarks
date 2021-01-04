@@ -25,11 +25,13 @@ void eval_commutative_red(Vector* arr, int* indices) {
 
   fasttime_t start = gettime();
   // Sum
+  for (int j = 0; j < NUM_SUM_OUTER * NUM_SUM_INNER; j += NUM_SUM_INNER) {
 #pragma cilk grainsize 1
-  cilk_for (int i = 0; i < NUM_SUM; i++) {
-    //int worker_number = (int) (*(((uint64_t*) tls_worker) + 4));
-    int worker_number = __cilkrts_get_worker_number();
-    vector_add(&local_views[worker_number], &arr[indices[i]]);
+    cilk_for (int i = 0; i < NUM_SUM_INNER; i++) {
+      //int worker_number = (int) (*(((uint64_t*) tls_worker) + 4));
+      int worker_number = __cilkrts_get_worker_number();
+      vector_add(&local_views[worker_number], &arr[indices[i + j]]);
+    }
   }
   for (int i = 0; i < CILK_NWORKERS; i++) {
     vector_add(n, &local_views[i]);
