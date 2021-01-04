@@ -5,6 +5,8 @@
 #define NUM_SUM_INNER 10000
 #define INLINE_HELPER 1
 
+#define MAX(x, y) (((x) > (y)) ? (x) : (y))
+
 typedef struct Vector {
   long ele[VECTOR_LEN];
 } __attribute__((aligned (64))) Vector;

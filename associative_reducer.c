@@ -7,7 +7,15 @@
 
 
 void sum_reduce(void* key, void* left, void* right) {
-  vector_add((Vector*)left, (Vector*)right);
+  Vector* left_v = (Vector*) left;
+  Vector* right_v = (Vector*) right;
+  for (int i = 0; i < VECTOR_LEN - 2; i++) {
+    left_v->ele[i] = left_v->ele[i] + right_v->ele[i];
+  }
+  left_v->ele[VECTOR_LEN - 2] =
+      left_v->ele[VECTOR_LEN - 2] + right_v->ele[VECTOR_LEN - 2] + 1;
+  left_v->ele[VECTOR_LEN - 1] =
+      MAX(left_v->ele[VECTOR_LEN - 1], right_v->ele[VECTOR_LEN - 1]) + 1;
 }
 
 void sum_identity(void* key, void* value) {
@@ -40,10 +48,14 @@ void eval_associative_red(Vector* arr, int* indices) {
   fasttime_t stop = gettime();
 
   long sum = 0;
-  for (int i = 0; i < VECTOR_LEN; i++) {
+  for (int i = 0; i < VECTOR_LEN - 2; i++) {
     sum += REDUCER_VIEW(n).ele[i];
   }
-  printf("%f\t%ld\n", tdiff_sec(start, stop), sum);
+  //printf("%f\t%ld\n", tdiff_sec(start, stop), sum);
+  printf("%f\t%ld\t%ld\t%ld\n",
+      tdiff_sec(start, stop), sum,
+      REDUCER_VIEW(n).ele[VECTOR_LEN - 2],
+      REDUCER_VIEW(n).ele[VECTOR_LEN - 1]);
 
   CILK_C_UNREGISTER_REDUCER(n);
 }
