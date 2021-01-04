@@ -8,7 +8,7 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 
 typedef struct Vector {
-  long ele[VECTOR_LEN];
+  long ele[VECTOR_LEN + 128];
 } __attribute__((aligned (64))) Vector;
 
 
