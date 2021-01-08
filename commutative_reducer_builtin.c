@@ -6,24 +6,11 @@
 #include "defs.h"
 
 
-void sum_reduce_com(void* key, void* left, void* right) {
-  vector_add(left, right);
-}
-
-void sum_identity_com(void* key, void* value) {
-  for (int i = 0; i < VECTOR_LEN; i++) {
-    ((Vector*)value)->ele[i] = 0;
-  }
-}
-
-void sum_destroy_com(void* key, void* value) {
-}
-
 typedef CILK_C_DECLARE_REDUCER(Vector) ComSumReducer;
 
 
 ComSumReducer n_com = CILK_C_INIT_COM_REDUCER(Vector,
-    sum_reduce_com, sum_identity_com, sum_destroy_com);
+    sum_reduce, sum_identity, sum_destroy);
 
 
 void eval_commutative_red_builtin(Vector* arr, int* indices) {

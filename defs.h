@@ -22,6 +22,10 @@ static inline void vector_add(Vector* left, Vector* right) {
 __attribute__((noinline)) void vector_add(Vector* left, Vector* right);
 #endif
 
+void sum_reduce(void*, void*, void*);
+void sum_identity(void*, void*);
+void sum_destroy(void*, void*);
+
 void eval_associative_red(Vector*, int*);
 void eval_commutative_red(Vector*, int*);
 void eval_commutative_red_builtin(Vector*, int*);
