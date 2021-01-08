@@ -65,6 +65,7 @@ for arr_len in arr_lens:
             serial = Result()
             asso = Result()
             com = Result()
+            com_builtin = Result()
 
             for i in range(reps):
                 command = "CILK_NWORKERS={} taskset -c 1-{} ./main".format(
@@ -76,7 +77,9 @@ for arr_len in arr_lens:
                 serial.insert(output[0])
                 asso.insert(output[1])
                 com.insert(output[2])
+                com_builtin.insert(output[3])
 
             print(serial)
             print(asso)
             print(com)
+            print(com_builtin)
