@@ -25,8 +25,13 @@ int main() {
     indices[i] = rand() % ARR_LEN;
   }
 
+#if METHOD == 0
   eval_serial(arr, indices);
+#elif METHOD == 1
   eval_associative_red(arr, indices);
+#elif METHOD == 2
   eval_commutative_red(arr, indices);
+#elif METHOD == 3
   eval_commutative_red_builtin(arr, indices);
+#endif
 }

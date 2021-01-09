@@ -6,6 +6,12 @@ import statistics
 arr_lens = [10]
 vector_lens = [2, 8, 16, 32, 64, 128]
 worker_nums = [1, 2, 4, 8]
+methods = {
+    0: "serial",
+    1: "associative",
+    2: "commutative",
+    3: "commutative_builtin",
+}
 
 reps = 3
 
@@ -40,46 +46,43 @@ class Result(object):
         return statistics.stdev(self.times)
 
     def __str__(self):
-        return "{:.6f}\t{:.5f}  \t{}".format(self.min, self.stdev, self.extras)
+        if not all(item == '' for item in self.extras):
+            return "{:.6f}\t{:.5f}  \t{}".format(self.min, self.stdev, self.extras)
+        else:
+            return "{:.6f}\t{:.5f}".format(self.min, self.stdev)
+
+
+def run_benchmark(arr_len, worker_num, vector_len):
+    print("Arr len {}, vector len {}, worker number {}".format(
+        arr_len, vector_len, worker_num))
+
+    for method in methods:
+        process = subprocess.Popen(
+                "make clean".split(' '),
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.STDOUT)
+        process.wait()
+
+        process = subprocess.Popen(
+                "make ARR_LEN={} VECTOR_LEN={} METHOD={}".format(
+                    arr_len, vector_len, method).split(' '),
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.STDOUT)
+        process.wait()
+
+        result = Result()
+
+        for i in range(reps):
+            command = "CILK_NWORKERS={} taskset -c 1-{} ./main".format(
+                worker_num, worker_num)
+            output = os.popen(command).read()
+            output = output.strip()
+            result.insert(output)
+
+        print("{}\t{}".format(methods[method], result))
 
 
 for arr_len in arr_lens:
     for worker_num in worker_nums:
         for vector_len in vector_lens:
-            process = subprocess.Popen(
-                    "make clean".split(' '),
-                    stdout=subprocess.DEVNULL,
-                    stderr=subprocess.STDOUT)
-            process.wait()
-
-            process = subprocess.Popen(
-                    "make ARR_LEN={} VECTOR_LEN={}".format(
-                        arr_len, vector_len).split(' '),
-                    stdout=subprocess.DEVNULL,
-                    stderr=subprocess.STDOUT)
-            process.wait()
-
-            print("Arr len {}, vector len {}, worker number {}".format(
-                arr_len, vector_len, worker_num))
-
-            serial = Result()
-            asso = Result()
-            com = Result()
-            com_builtin = Result()
-
-            for i in range(reps):
-                command = "CILK_NWORKERS={} taskset -c 1-{} ./main".format(
-                    worker_num, worker_num)
-                output = os.popen(command).read()
-
-                output = output.strip().split("\n")
-
-                serial.insert(output[0])
-                asso.insert(output[1])
-                com.insert(output[2])
-                com_builtin.insert(output[3])
-
-            print(serial)
-            print(asso)
-            print(com)
-            print(com_builtin)
+            run_benchmark(arr_len, worker_num, vector_len)
