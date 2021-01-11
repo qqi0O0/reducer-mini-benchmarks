@@ -7,10 +7,6 @@ CFLAGS := -Wall -O1 -g -fopencilk -flto -mllvm -use-external-abi-functions -fno-
 EXTRA_CFLAGS :=
 LDFLAGS := -flto -fuse-ld=gold -fopencilk -L/efs/home/qqi/cheetah-dev-com-reducer/runtime/ -static-libopencilk -lprofiler
 
-ifneq ($(ARR_LEN),)
-	EXTRA_CFLAGS := -DARR_LEN=$(ARR_LEN) $(EXTRA_CFLAGS)
-endif
-
 ifneq ($(VECTOR_LEN),)
 	EXTRA_CFLAGS := -DVECTOR_LEN=$(VECTOR_LEN) $(EXTRA_CFLAGS)
 endif

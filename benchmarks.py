@@ -3,7 +3,6 @@ import subprocess
 import statistics
 
 
-arr_lens = [10]
 vector_lens = [2, 8, 16, 32, 64, 128]
 worker_nums = [1, 2, 4, 8]
 methods = {
@@ -52,9 +51,8 @@ class Result(object):
             return "{:.6f}\t{:.5f}".format(self.min, self.stdev)
 
 
-def run_benchmark(arr_len, worker_num, vector_len):
-    print("Arr len {}, vector len {}, worker number {}".format(
-        arr_len, vector_len, worker_num))
+def run_benchmark(worker_num, vector_len):
+    print("Vector len {}, worker number {}".format(vector_len, worker_num))
 
     for method in methods:
         process = subprocess.Popen(
@@ -64,8 +62,7 @@ def run_benchmark(arr_len, worker_num, vector_len):
         process.wait()
 
         process = subprocess.Popen(
-                "make ARR_LEN={} VECTOR_LEN={} METHOD={}".format(
-                    arr_len, vector_len, method).split(' '),
+                "make VECTOR_LEN={} METHOD={}".format(vector_len, method).split(' '),
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.STDOUT)
         process.wait()
@@ -82,7 +79,6 @@ def run_benchmark(arr_len, worker_num, vector_len):
         print("{}\t{}".format(methods[method], result))
 
 
-for arr_len in arr_lens:
-    for worker_num in worker_nums:
-        for vector_len in vector_lens:
-            run_benchmark(arr_len, worker_num, vector_len)
+for worker_num in worker_nums:
+    for vector_len in vector_lens:
+        run_benchmark(worker_num, vector_len)
