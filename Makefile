@@ -3,9 +3,9 @@ PRODUCT_SOURCES = $(wildcard *.c)
 PRODUCT_OBJECTS = $(PRODUCT_SOURCES:.c=.o)
 
 CC := /EBS/mount/qqi/build_pure/bin/clang
-CFLAGS := -Wall -O1 -g -fopencilk -flto -mllvm -use-external-abi-functions -fno-vectorize -fno-slp-vectorize -I/efs/home/qqi/cheetah-dev-splitter/include/
+CFLAGS := -Wall -O1 -g -fopencilk -flto -mllvm -use-external-abi-functions -fno-vectorize -fno-slp-vectorize -I/efs/home/qqi/cheetah-dev-com-reducer/include/
 EXTRA_CFLAGS :=
-LDFLAGS := -flto -fuse-ld=gold -fopencilk -L/efs/home/qqi/cheetah-dev-splitter/runtime/ -static-libopencilk -lprofiler
+LDFLAGS := -flto -fuse-ld=gold -fopencilk -L/efs/home/qqi/cheetah-dev-com-reducer/runtime/ -static-libopencilk -lprofiler
 
 ifneq ($(ARR_LEN),)
 	EXTRA_CFLAGS := -DARR_LEN=$(ARR_LEN) $(EXTRA_CFLAGS)
