@@ -5,7 +5,7 @@
 #include "defs.h"
 
 
-void eval_serial(int* image) {
+void eval_serial(int8_t* image) {
   Hist n = {};
 
   fasttime_t start = gettime();
@@ -13,7 +13,7 @@ void eval_serial(int* image) {
   for (int i = 0; i < HEIGHT; i++) {
     for (int j = 0; j < WIDTH; j++) {
       int index = i * WIDTH + j;
-      int pixel = image[index];
+      int8_t pixel = image[index];
       n.ele[pixel]++;
     }
   }

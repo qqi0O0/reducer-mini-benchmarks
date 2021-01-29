@@ -13,7 +13,7 @@ SumReducer n = CILK_C_INIT_REDUCER(Hist,
     sum_reduce, sum_identity, sum_destroy);
 
 
-void eval_associative_red(int* image) {
+void eval_associative_red(int8_t* image) {
   CILK_C_REGISTER_REDUCER(n);
 
   fasttime_t start = gettime();
@@ -22,7 +22,7 @@ void eval_associative_red(int* image) {
 #pragma cilk grainsize 1
     cilk_for (int j = 0; j < WIDTH; j++) {
       int index = i * WIDTH + j;
-      int pixel = image[index];
+      int8_t pixel = image[index];
       REDUCER_VIEW(n).ele[pixel]++;
     }
   }

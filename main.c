@@ -7,7 +7,7 @@
 int main() {
   srand(0);
 
-  int* image = (int*) malloc(WIDTH * HEIGHT * sizeof(int));
+  int8_t* image = (int8_t*) malloc(WIDTH * HEIGHT * sizeof(int8_t));
   for (int i = 0; i < HEIGHT; i++) {
     for (int j = 0; j < WIDTH; j++) {
       int index = i * WIDTH + j;

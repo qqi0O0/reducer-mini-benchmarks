@@ -13,7 +13,7 @@
 extern __thread struct __cilkrts_worker *tls_worker;
 
 
-void eval_commutative_red(int* image) {
+void eval_commutative_red(int8_t* image) {
   Hist* local_views;
   //local_views = malloc(CILK_NWORKERS * sizeof(Hist));
   local_views = aligned_alloc(64 * 8, CILK_NWORKERS * sizeof(Hist));
@@ -29,7 +29,7 @@ void eval_commutative_red(int* image) {
       //int worker_number = (int) (*(((uint64_t*) tls_worker) + 4));
       int worker_number = __cilkrts_get_worker_number();
       int index = i * WIDTH + j;
-      int pixel = image[index];
+      int8_t pixel = image[index];
       local_views[worker_number].ele[pixel]++;
     }
   }

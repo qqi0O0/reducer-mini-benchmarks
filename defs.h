@@ -26,7 +26,7 @@ void sum_reduce(void*, void*, void*);
 void sum_identity(void*, void*);
 void sum_destroy(void*, void*);
 
-void eval_associative_red(int*);
-void eval_commutative_red(int*);
-void eval_commutative_red_builtin(int*);
-void eval_serial(int*);
+void eval_associative_red(int8_t*);
+void eval_commutative_red(int8_t*);
+void eval_commutative_red_builtin(int8_t*);
+void eval_serial(int8_t*);

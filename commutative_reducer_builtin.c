@@ -13,7 +13,7 @@ ComSumReducer n_com = CILK_C_INIT_COM_REDUCER(Hist,
     sum_reduce, sum_identity, sum_destroy);
 
 
-void eval_commutative_red_builtin(int* image) {
+void eval_commutative_red_builtin(int8_t* image) {
   CILK_C_REGISTER_COM_REDUCER(n_com);
 
   fasttime_t start = gettime();
@@ -22,7 +22,7 @@ void eval_commutative_red_builtin(int* image) {
 #pragma cilk grainsize 1
     cilk_for (int j = 0; j < WIDTH; j++) {
       int index = i * WIDTH + j;
-      int pixel= image[index];
+      int8_t pixel = image[index];
       COM_REDUCER_VIEW(n_com).ele[pixel]++;
     }
   }
