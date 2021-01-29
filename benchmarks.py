@@ -3,7 +3,6 @@ import subprocess
 import statistics
 
 
-vector_lens = [2, 8, 16, 32, 64, 128]
 worker_nums = [1, 2, 4, 8]
 methods = {
     0: "serial",
@@ -21,12 +20,10 @@ class Result(object):
     def __init__(self):
         self.times = []
         self.value = None
-        self.extras = []
 
     def insert(self, input_str):
         time = input_str.split("\t")[0]
-        value = input_str.split("\t")[1]
-        extra = " ".join(input_str.split("\t")[2:])
+        value = " ".join(input_str.split("\t")[1:])
 
         if self.value is None:
             self.value = value
@@ -34,7 +31,6 @@ class Result(object):
             if self.value != value:
                 raise AssertionError("Wrong answer!")
         self.times.append(float(time))
-        self.extras.append(extra)
 
     @property
     def min(self):
@@ -45,14 +41,11 @@ class Result(object):
         return statistics.stdev(self.times)
 
     def __str__(self):
-        if not all(item == '' for item in self.extras):
-            return "{:.6f}\t{:.5f}  \t{}".format(self.min, self.stdev, self.extras)
-        else:
-            return "{:.6f}\t{:.5f}".format(self.min, self.stdev)
+        return "{:.6f}\t{:.5f}".format(self.min, self.stdev)
 
 
-def run_benchmark(worker_num, vector_len):
-    print("Vector len {}, worker number {}".format(vector_len, worker_num))
+def run_benchmark(worker_num):
+    print("worker number {}".format(worker_num))
 
     for method in methods:
         process = subprocess.Popen(
@@ -62,7 +55,7 @@ def run_benchmark(worker_num, vector_len):
         process.wait()
 
         process = subprocess.Popen(
-                "make VECTOR_LEN={} METHOD={}".format(vector_len, method).split(' '),
+                "make METHOD={}".format(method).split(' '),
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.STDOUT)
         process.wait()
@@ -80,5 +73,4 @@ def run_benchmark(worker_num, vector_len):
 
 
 for worker_num in worker_nums:
-    for vector_len in vector_lens:
-        run_benchmark(worker_num, vector_len)
+    run_benchmark(worker_num)
