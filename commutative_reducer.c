@@ -13,37 +13,32 @@
 extern __thread struct __cilkrts_worker *tls_worker;
 
 
-void eval_commutative_red(Vector* arr, int* indices) {
-  Vector* local_views;
-  //local_views = malloc(CILK_NWORKERS * sizeof(Vector));
-  local_views = aligned_alloc(64 * 8, CILK_NWORKERS * sizeof(Vector));
-  memset(local_views, 0, CILK_NWORKERS * sizeof(Vector));
+void eval_commutative_red(int* image) {
+  Hist* local_views;
+  //local_views = malloc(CILK_NWORKERS * sizeof(Hist));
+  local_views = aligned_alloc(64 * 8, CILK_NWORKERS * sizeof(Hist));
+  memset(local_views, 0, CILK_NWORKERS * sizeof(Hist));
 
-  Vector* n;
-  n = malloc(sizeof(Vector));
-  memset(n, 0, sizeof(Vector));
+  Hist n = {};
 
   fasttime_t start = gettime();
   // Sum
-  for (int j = 0; j < NUM_SUM_OUTER * NUM_SUM_INNER; j += NUM_SUM_INNER) {
+  for (int i = 0; i < HEIGHT; i++) {
 #pragma cilk grainsize 1
-    cilk_for (int i = 0; i < NUM_SUM_INNER; i++) {
+    cilk_for (int j = 0; j < WIDTH; j++) {
       //int worker_number = (int) (*(((uint64_t*) tls_worker) + 4));
       int worker_number = __cilkrts_get_worker_number();
-      vector_add(&local_views[worker_number], &arr[indices[i + j]]);
+      int index = i * WIDTH + j;
+      int pixel = image[index];
+      local_views[worker_number].ele[pixel]++;
     }
   }
   for (int i = 0; i < CILK_NWORKERS; i++) {
-    vector_add(n, &local_views[i]);
+    hist_add(&n, &local_views[i]);
   }
   fasttime_t stop = gettime();
 
-  long sum = 0;
-  for (int i = 0; i < VECTOR_LEN - 2; i++) {
-    sum += n->ele[i];
-  }
-  printf("%f\t%ld\n", tdiff_sec(start, stop), sum);
+  printf("%f\t%d\t%d\t%d\n", tdiff_sec(start, stop), n.ele[0], n.ele[1], n.ele[255]);
 
   free(local_views);
-  free(n);
 }

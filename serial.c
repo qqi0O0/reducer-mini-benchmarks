@@ -5,21 +5,19 @@
 #include "defs.h"
 
 
-void eval_serial(Vector* arr, int* indices) {
-  Vector n = {};
+void eval_serial(int* image) {
+  Hist n = {};
 
   fasttime_t start = gettime();
-  // Sum
-  for (int j = 0; j < NUM_SUM_OUTER * NUM_SUM_INNER; j += NUM_SUM_INNER) {
-    for (int i = 0; i < NUM_SUM_INNER; i++) {
-      vector_add(&n, &arr[indices[i + j]]);
+  // Collect
+  for (int i = 0; i < HEIGHT; i++) {
+    for (int j = 0; j < WIDTH; j++) {
+      int index = i * WIDTH + j;
+      int pixel = image[index];
+      n.ele[pixel]++;
     }
   }
   fasttime_t stop = gettime();
 
-  long sum = 0;
-  for (int i = 0; i < VECTOR_LEN - 2; i++) {
-    sum += n.ele[i];
-  }
-  printf("%f\t%ld\n", tdiff_sec(start, stop), sum);
+  printf("%f\t%d\t%d\t%d\n", tdiff_sec(start, stop), n.ele[0], n.ele[1], n.ele[255]);
 }
