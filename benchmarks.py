@@ -33,15 +33,15 @@ class Result(object):
         self.times.append(float(time))
 
     @property
-    def min(self):
-        return min(self.times)
+    def mean(self):
+        return statistics.mean(self.times)
 
     @property
     def stdev(self):
         return statistics.stdev(self.times)
 
     def __str__(self):
-        return "{:.6f}\t{:.5f}".format(self.min, self.stdev)
+        return "{:.6f}\t{:.5f}".format(self.mean, self.stdev)
 
 
 def run_benchmark(worker_num):
