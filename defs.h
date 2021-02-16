@@ -5,6 +5,7 @@
 #define WIDTH 10000
 #define HEIGHT 10000
 #define INLINE_HELPER 1
+#define GRAINSIZE 1
 
 
 typedef struct Hist{

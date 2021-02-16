@@ -19,7 +19,7 @@ void eval_associative_red(int* image) {
   fasttime_t start = gettime();
   // Sum
   for (int i = 0; i < HEIGHT; i++) {
-#pragma cilk grainsize 1
+#pragma cilk grainsize GRAINSIZE
     cilk_for (int j = 0; j < WIDTH; j++) {
       int index = i * WIDTH + j;
       int pixel = image[index];
