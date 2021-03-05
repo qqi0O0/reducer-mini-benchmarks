@@ -67,6 +67,7 @@ def run_benchmark(worker_num):
                 worker_num, worker_num)
             output = os.popen(command).read()
             output = output.strip()
+            output = output.split('\n')[1]
             result.insert(output)
 
         print("{}\t{}".format(methods[method], result))
