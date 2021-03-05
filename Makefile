@@ -2,10 +2,10 @@ HEADERS = $(wildcard *.h)
 PRODUCT_SOURCES = $(wildcard *.c)
 PRODUCT_OBJECTS = $(PRODUCT_SOURCES:.c=.o)
 
-CC := /EBS/mount/qqi/build_pure/bin/clang
-CFLAGS := -Wall -O1 -g -fopencilk -flto -mllvm -use-external-abi-functions -fno-vectorize -fno-slp-vectorize -I/efs/home/qqi/cheetah-dev-com-reducer/include/
+CC := /home/ubuntu/opencilk/build/bin/clang
+CFLAGS := -Wall -O3 -g -fopencilk -flto -fno-vectorize -fno-slp-vectorize -I/home/ubuntu/cheetah-dev/include
 EXTRA_CFLAGS :=
-LDFLAGS := -flto -fuse-ld=gold -fopencilk -L/efs/home/qqi/cheetah-dev-com-reducer/runtime/ -static-libopencilk -lprofiler
+LDFLAGS := -flto -fuse-ld=gold -fopencilk -L/home/ubuntu/cheetah-dev/runtime -static-libopencilk
 
 ifneq ($(VECTOR_LEN),)
 	EXTRA_CFLAGS := -DVECTOR_LEN=$(VECTOR_LEN) $(EXTRA_CFLAGS)
