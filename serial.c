@@ -12,8 +12,7 @@ void eval_serial(int* image) {
   // Collect
   for (int i = 0; i < HEIGHT; i++) {
     for (int j = 0; j < WIDTH; j++) {
-      int index = i * WIDTH + j;
-      int pixel = image[index];
+      int pixel = image[j];
       n.ele[pixel]++;
     }
   }

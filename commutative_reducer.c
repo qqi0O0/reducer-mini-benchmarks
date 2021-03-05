@@ -28,8 +28,7 @@ void eval_commutative_red(int* image) {
     cilk_for (int j = 0; j < WIDTH; j++) {
       //int worker_number = (int) (*(((uint64_t*) tls_worker) + 4));
       int worker_number = __cilkrts_get_worker_number();
-      int index = i * WIDTH + j;
-      int pixel = image[index];
+      int pixel = image[j];
       local_views[worker_number].ele[pixel]++;
     }
   }

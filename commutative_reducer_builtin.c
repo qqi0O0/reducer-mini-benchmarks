@@ -21,8 +21,7 @@ void eval_commutative_red_builtin(int* image) {
   for (int i = 0; i < HEIGHT; i++) {
 #pragma cilk grainsize GRAINSIZE
     cilk_for (int j = 0; j < WIDTH; j++) {
-      int index = i * WIDTH + j;
-      int pixel= image[index];
+      int pixel= image[j];
       COM_REDUCER_VIEW(n_com).ele[pixel]++;
     }
   }

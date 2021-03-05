@@ -7,12 +7,9 @@
 int main() {
   srand(0);
 
-  int* image = (int*) malloc(WIDTH * HEIGHT * sizeof(int));
-  for (int i = 0; i < HEIGHT; i++) {
-    for (int j = 0; j < WIDTH; j++) {
-      int index = i * WIDTH + j;
-      image[index] = rand() % PIXEL_MAX_VAL;
-    }
+  int* image = (int*) malloc(WIDTH * sizeof(int));
+  for (int j = 0; j < WIDTH; j++) {
+    image[j] = rand() % PIXEL_MAX_VAL;
   }
 
 #if METHOD == 0
