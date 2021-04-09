@@ -13,7 +13,7 @@ SumReducer n = CILK_C_INIT_REDUCER(Hist,
     sum_reduce, sum_identity, sum_destroy);
 
 
-void eval_associative_red(int* image) {
+void eval_associative_red(uint8_t* image) {
   CILK_C_REGISTER_REDUCER(n);
 
   fasttime_t start = gettime();
@@ -21,13 +21,13 @@ void eval_associative_red(int* image) {
   for (int i = 0; i < SER_ITER; i++) {
 #pragma cilk grainsize GRAINSIZE
     cilk_for (int j = 0; j < PAR_ITER; j++) {
-      int pixel = image[j];
+      uint8_t pixel = image[j];
       REDUCER_VIEW(n).ele[pixel]++;
     }
   }
   fasttime_t stop = gettime();
 
-  printf("%f\t%d\t%d\t%d\n", tdiff_sec(start, stop),
+  printf("%f\t%u\t%u\t%u\n", tdiff_sec(start, stop),
       REDUCER_VIEW(n).ele[0],
       REDUCER_VIEW(n).ele[1],
       REDUCER_VIEW(n).ele[255]);
