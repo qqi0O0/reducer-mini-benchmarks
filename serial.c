@@ -10,8 +10,8 @@ void eval_serial(int* image) {
 
   fasttime_t start = gettime();
   // Collect
-  for (int i = 0; i < HEIGHT; i++) {
-    for (int j = 0; j < WIDTH; j++) {
+  for (int i = 0; i < SER_ITER; i++) {
+    for (int j = 0; j < PAR_ITER; j++) {
       int pixel = image[j];
       n.ele[pixel]++;
     }

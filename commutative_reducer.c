@@ -23,9 +23,9 @@ void eval_commutative_red(int* image) {
 
   fasttime_t start = gettime();
   // Sum
-  for (int i = 0; i < HEIGHT; i++) {
+  for (int i = 0; i < SER_ITER; i++) {
 #pragma cilk grainsize GRAINSIZE
-    cilk_for (int j = 0; j < WIDTH; j++) {
+    cilk_for (int j = 0; j < PAR_ITER; j++) {
       //int worker_number = (int) (*(((uint64_t*) tls_worker) + 4));
       int worker_number = __cilkrts_get_worker_number();
       int pixel = image[j];

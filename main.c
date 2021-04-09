@@ -9,8 +9,8 @@ int main() {
 
   cilk_spawn printf("1\n");
 
-  int* image = (int*) malloc(WIDTH * sizeof(int));
-  for (int j = 0; j < WIDTH; j++) {
+  int* image = (int*) malloc(PAR_ITER* sizeof(int));
+  for (int j = 0; j < PAR_ITER; j++) {
     image[j] = rand() % PIXEL_MAX_VAL;
   }
 
