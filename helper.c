@@ -23,3 +23,12 @@ void sum_identity(void* key, void* value) {
 
 void sum_destroy(void* key, void* value) {
 }
+
+int results_ok(int* results) {
+  for (int i = 1; i < SER_ITER; i++) {
+    if (results[i] != results[0]) {
+      return 0;
+    }
+  }
+  return 1;
+}
