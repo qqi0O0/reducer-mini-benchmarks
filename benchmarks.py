@@ -3,15 +3,16 @@ import subprocess
 import statistics
 
 
-worker_nums = [1, 2, 4, 8]
+worker_nums = [i for i in range(1, 17)]
 methods = {
     0: "serial",
     1: "associative",
-    2: "commutative",
+    #2: "commutative",
     3: "commutative_builtin",
 }
+grainsizes = [1, 16, 256]
 
-reps = 3
+reps = 20
 
 INF = 10000
 
@@ -44,34 +45,40 @@ class Result(object):
         return "{:.6f}\t{:.5f}".format(self.mean, self.stdev)
 
 
-def run_benchmark(worker_num):
-    print("worker number {}".format(worker_num))
+def run_with_params(method, grainsize, worker_num):
+    print("worker n {}".format(worker_num), end="\t")
 
-    for method in methods:
-        process = subprocess.Popen(
-                "make clean".split(' '),
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.STDOUT)
-        process.wait()
+    process = subprocess.Popen(
+            "make clean".split(' '),
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.STDOUT)
+    process.wait()
 
-        process = subprocess.Popen(
-                "make METHOD={}".format(method).split(' '),
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.STDOUT)
-        process.wait()
+    process = subprocess.Popen(
+            "make METHOD={} GRAINSIZE={}".format(method, grainsize).split(' '),
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.STDOUT)
+    process.wait()
 
-        result = Result()
+    result = Result()
 
-        for i in range(reps):
-            command = "CILK_NWORKERS={} taskset -c 1-{} ./main".format(
-                worker_num, worker_num)
-            output = os.popen(command).read()
-            output = output.strip()
-            output = output.split('\n')[1]
-            result.insert(output)
+    for i in range(reps):
+        command = "CILK_NWORKERS={} taskset -c 1-{} ./main".format(
+            worker_num, worker_num)
+        output = os.popen(command).read()
+        output = output.strip()
+        output = output.split('\n')[1]
+        result.insert(output)
 
-        print("{}\t{}".format(methods[method], result))
+    print(result)
 
 
-for worker_num in worker_nums:
-    run_benchmark(worker_num)
+for method in methods:
+    print(methods[method])
+    if method == 0:
+        run_with_params(method, 1, 1)
+    else:
+        for grainsize in grainsizes:
+            print("grainsize", grainsize)
+            for worker_num in worker_nums:
+                run_with_params(method, grainsize, worker_num)

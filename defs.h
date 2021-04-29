@@ -6,7 +6,6 @@
 #define PAR_ITER 10000
 #define SER_ITER 10000
 #define INLINE_HELPER 1
-#define GRAINSIZE 1
 
 
 typedef struct Hist{
