@@ -6,12 +6,11 @@
 
 
 int trial_serial(uint8_t* image) {
-  Hist n = {};
+  long n = 0;
   for (int j = 0; j < PAR_ITER; j++) {
-    uint8_t pixel = image[j];
-    n.ele[pixel]++;
+    n += image[j];
   }
-  return n.ele[1] + n.ele[2];
+  return n;
 }
 
 void eval_serial(uint8_t* image) {

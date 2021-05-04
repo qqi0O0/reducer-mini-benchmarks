@@ -18,8 +18,6 @@ int main() {
   eval_serial(image);
 #elif METHOD == 1
   eval_associative_red(image);
-#elif METHOD == 2
-  eval_commutative_red(image);
 #elif METHOD == 3
   eval_commutative_red_builtin(image);
 #endif

@@ -6,23 +6,20 @@
 #include "defs.h"
 
 
-typedef CILK_C_DECLARE_REDUCER(Hist) SumReducer;
+typedef CILK_C_DECLARE_REDUCER(long) SumReducer;
 
 
-SumReducer n = CILK_C_INIT_REDUCER(Hist,
+SumReducer n = CILK_C_INIT_REDUCER(long,
     sum_reduce, sum_identity, sum_destroy);
 
 
 int trial_associative(uint8_t* image) {
-  for (int i = 0; i < PIXEL_MAX_VAL; i++) {
-    REDUCER_VIEW(n).ele[i] = 0;
-  }
+  REDUCER_VIEW(n) = 0;
 #pragma cilk grainsize GRAINSIZE
   cilk_for (int j = 0; j < PAR_ITER; j++) {
-    uint8_t pixel = image[j];
-    REDUCER_VIEW(n).ele[pixel]++;
+    REDUCER_VIEW(n) += image[j];
   }
-  return REDUCER_VIEW(n).ele[1] + REDUCER_VIEW(n).ele[2];
+  return REDUCER_VIEW(n);
 }
 
 void eval_associative_red(uint8_t* image) {
